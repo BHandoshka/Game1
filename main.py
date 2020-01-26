@@ -46,7 +46,7 @@ pygame.display.set_caption('первая игра')
 screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 
 player = pygame.Surface((PLAYER_SIZE, PLAYER_SIZE), pygame.SRCALPHA)
-player.set_colorkey((0, 0, 0))
+# player.set_colorkey((0, 0, 0))
 
 
 def face(color):
