@@ -2,26 +2,26 @@ import pygame
 
 level = [
     '----------------------------------------------------------------------------------------------------------------------------------',
+    '-                                -                                                                                               -',
+    '-    -       -                                              -                 -                                                  -',
+    '-                                     -                                                                      -                   -',
+    '- -             -                                                                             -                                  -',
+    '-  -           -                                                                                                                 -',
+    '-   -----------                                                          -            -                                   -      -',
+    '-                          -                  -                                                  -                               -',
+    '-                                                             -                                                                  -',
+    '-                                                                                                            -                   -',
+    '-                                       -            -                          -                                                -',
     '-                                                                                                                                -',
+    '-                              -                                                           -                      -              -',
     '-                                                                                                                                -',
+    '-                                                                       -                                                      - -',
+    '-                         -                              -                                           -             -             -',
     '-                                                                                                                                -',
+    '-                                               -                                      -                                         -',
+    '-                                    -                              -                                                            -',
     '-                                                                                                                                -',
-    '-                                                                                                                                -',
-    '-                                                                                                                                -',
-    '-                                                                                                                                -',
-    '-                                                                                                                                -',
-    '-                                                                                                                                -',
-    '-                                                                                                                                -',
-    '-                                                                                                                                -',
-    '-                                                                                                                                -',
-    '-                                                                                                                                -',
-    '-                                                                                                                                -',
-    '-                                                                                                                                -',
-    '-                                                                                                                                -',
-    '-                                                                                                                                -',
-    '-                                                                                                                                -',
-    '-                                                                                                                                -',
-    '----------------------------------------------------------------------------------------------------------------------------------'
+    '----------------------------------------------------------------------------------------------------------------------------------',
 ]
 
 WIN_WIDTH, WIN_HEIGHT = 780, 630
@@ -29,7 +29,6 @@ BG_COLOR = (192, 192, 192)
 BRICK_WIDTH = BRICK_HEIGHT = 30
 BRICK_COLOR = (0, 128, 0)
 BRICK_COLOR_2 = (255, 128, 0)
-RED = (255, 0, 0)
 FPS = 60
 clock = pygame.time.Clock()
 PLAYER_SIZE = 40
@@ -38,16 +37,24 @@ dx = 0
 PLAYER_SPEED = 3
 penalty = 0.0
 BTN_W, BTN_H = 220, 60
+GOLD = (255, 215, 0)
+BLUE = (0, 0, 255)
+RED = (255, 0, 0)
 
 pygame.init()
 pygame.display.set_caption('первая игра')
 screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
-player = pygame.Surface((PLAYER_SIZE, PLAYER_SIZE))
+
+player = pygame.Surface((PLAYER_SIZE, PLAYER_SIZE), pygame.SRCALPHA)
 player.set_colorkey((0, 0, 0))
-pygame.draw.circle(player, (0, 0, 250), (PLAYER_SIZE // 2, PLAYER_SIZE // 2), PLAYER_SIZE // 2)
-pygame.draw.circle(player, (255, 215, 0), (12, 15), 4)
-pygame.draw.circle(player, (255, 215, 0), (28, 15), 4)
-pygame.draw.arc(player, (255, 215, 0), (8, 12, 24, 20), 3.6, 6.0, 3)
+
+
+def face(color):
+    pygame.draw.circle(player, color, (PLAYER_SIZE // 2, PLAYER_SIZE // 2), PLAYER_SIZE // 2)
+    pygame.draw.circle(player, GOLD, (12, 15), 4)
+    pygame.draw.circle(player, GOLD, (28, 15), 4)
+    pygame.draw.arc(player, GOLD, (8, 12, 24, 20), 3.6, 6.0, 3)
+
 
 player_rect = player.get_rect(center=(WIN_WIDTH // 2, WIN_HEIGHT // 2))
 
@@ -56,8 +63,9 @@ text_xy = ((WIN_WIDTH - text.size(f'Штрафных очков {round(penalty, 
 
 btn = pygame.Surface((BTN_W, BTN_H))
 text1 = 'ИГРАТЬ СНОВА?'
-text
+text1_xy = text.size(text1)
 
+face(BLUE)
 run = True
 while run:
     for e in pygame.event.get():
@@ -75,6 +83,7 @@ while run:
         player_rect.y += PLAYER_SPEED
 
     screen.fill(BG_COLOR)
+    face(BLUE)
 
     if dx > -WIN_WIDTH * 4:
         dx -= BG_SPEED
@@ -90,6 +99,7 @@ while run:
                 brick = pygame.draw.rect(screen, BRICK_COLOR, [x, y, BRICK_WIDTH, BRICK_HEIGHT])
                 pygame.draw.rect(screen, (255, 128, 0), [x, y, BRICK_WIDTH, BRICK_HEIGHT], 2)
                 if brick.colliderect(player_rect):
+                    face(RED)
                     penalty += 0.1
             x += BRICK_WIDTH
         y += BRICK_HEIGHT
@@ -102,3 +112,16 @@ while run:
     pygame.display.set_caption(f' FPS: {round(clock.get_fps(), 2)}')
     pygame.display.update()
     clock.tick(FPS)
+
+# def drive(t, b, c): / def drive (a):    / a =[10]               /
+# a = 0               \     b = a * 100   \                       \
+# a += 1              /     return b      /                       /
+# drive(10, 20, z)    \                   \ def drive():          \
+#                     /                   /     b = 'python'      /
+#                     \     s = drive(10) \     a[0] = a[0] * 100 \
+#                     /                   /     print(b, type(b)) /
+#                     \     print(s)      \                       \
+#                     /                   / drive ()              /
+
+# circle = rect, x,y / ellipse = x, y, width, height.
+# RGB = red, green, blue. RGBA = red, green, blue, alpha. => Возможность менять прозрачность.
